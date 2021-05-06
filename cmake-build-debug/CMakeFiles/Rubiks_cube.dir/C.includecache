@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Laurent/Desktop/Rubiks cube/conio.h
+
+C:/Users/Laurent/Desktop/Rubiks cube/main.c
+rubiks.h
+C:/Users/Laurent/Desktop/Rubiks cube/rubiks.h
+
+C:/Users/Laurent/Desktop/Rubiks cube/rubiks.h
+stdio.h
+-
+stdlib.h
+-
+conio.h
+C:/Users/Laurent/Desktop/Rubiks cube/conio.h
+
