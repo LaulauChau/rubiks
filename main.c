@@ -1,15 +1,15 @@
 #include "rubiks.h"
 
 int main() {
-    /*create_rubiks();
+    create_rubiks();
     init_rubiks(rubic);
-    display_rubiks();*/
+    display_rubiks();
 
-    char couleur[] = "B";
+    /*char couleur[] = "B";
 
     c_textcolor(select_color(couleur));
 
-    printf("Hello World !\n");
+    printf("Hello World !\n");*/
 
     return 0;
 }

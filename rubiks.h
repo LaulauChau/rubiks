@@ -34,17 +34,21 @@ typedef enum {
 } T_COLOR;
 
 typedef struct {
-    T_SIDE *** cube;
-    T_COLOR couleur;
+    T_COLOR col;
+    char c;
+} box;
+
+typedef struct {
+    T_SIDE Tside;
+    box **my_side;
 } rubiks;
 
-rubiks rubic;
 
 int select_color(T_COLOR couleur); // prend une couleur en parametre et retourse sa valeur associee
 int side_to_index(T_SIDE face); // prend un nom de face en parametre et retourne sa position dans le tableau rubiks
 
-void create_rubiks(); // creer le cube dynamiquement
-void init_rubiks(rubiks rubicc); // prend en parametre et qui initialise chaque face a une couleur unique
+rubiks *create_rubiks(); // creer le cube dynamiquement
+void init_rubiks(rubiks *rubix); // prend en parametre et qui initialise chaque face a une couleur unique
 void display_rubiks(); // afficher le rubiks
 void blank_rubiks(); // griser toutes les cases du cube pour initialisation manuelle
 void fill_rubiks(); // remplir manuellement le rubiks

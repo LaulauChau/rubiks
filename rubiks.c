@@ -42,26 +42,26 @@ int side_to_index(T_SIDE face) {
     }
 }
 
-void create_rubiks() {
+rubiks *create_rubiks() {
     int i, j;
-
-    rubic.cube = (T_SIDE***) malloc (FACE * sizeof(T_SIDE)); // creer les 6 faces du rubiks
-
+    rubiks *rubix;
+    rubix = (rubiks*) malloc (FACE * sizeof(rubiks));
     for (i = 0 ; i < FACE ; i++) {
-        *(rubic.cube + i) = (T_SIDE**) malloc (LINE * sizeof(T_SIDE)); // creer le tableau 3x3 dans chaque face
-
+        rubix[i].my_side = (box**) malloc (LINE * sizeof(box*));
         for (j = 0 ; j < LINE ; j++) {
-            *(*(rubic.cube + i) + j) = (T_SIDE*) malloc (ROW * sizeof(T_SIDE));
+            rubix[i].my_side[j] = (box*) malloc (ROW * sizeof(box));
         }
     }
+    return rubix;
 }
 
-void init_rubiks(rubiks rubicc) {
+void init_rubiks(rubiks *rubix) {
     int i, j, k;
     for (i = 0 ; i < FACE ; i++) {
         for (j = 0 ; j < LINE ; j++) {
             for (k = 0 ; k < ROW ; k++) {
-                *(*(*(rubic.cube + i) + j) + k) = 2;
+                rubix[i].my_side[j]->col = LG;
+                rubix[i].my_side[j]->c = 'L';
             }
         }
     }
