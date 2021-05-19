@@ -129,11 +129,11 @@ void blank_rubiks(rubiks *rubix) {
         }
     }
 }
-/*
+
 void fill_rubiks(rubiks *rubix) {
     int face, cord_x, cord_y, couleur;
     int i, j, booleen = 0;
-
+/*
     for (i = 0 ; i < FACE ; i++) {
         for (j = 0 ; j < LINE ; j++) {
             if (rubix[i].my_side[j]->col == select_color(LG)) {
@@ -169,4 +169,8 @@ void fill_rubiks(rubiks *rubix) {
             }
         }
     }
-}*/
+*/
+
+    rubix[0].my_side[1][0].c = 'Z';
+    display_rubiks(rubix);
+}
