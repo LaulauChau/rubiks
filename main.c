@@ -1,9 +1,11 @@
 #include "rubiks.h"
 
 int main() {
-    create_rubiks();
-    init_rubiks(rubic);
-    display_rubiks();
+    rubiks *rubix = create_rubiks();
+    init_rubiks(rubix);
+    display_rubiks(rubix);
+
+    fill_rubiks(rubix);
 
     /*char couleur[] = "B";
 

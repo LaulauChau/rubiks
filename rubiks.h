@@ -49,9 +49,9 @@ int side_to_index(T_SIDE face); // prend un nom de face en parametre et retourne
 
 rubiks *create_rubiks(); // creer le cube dynamiquement
 void init_rubiks(rubiks *rubix); // prend en parametre et qui initialise chaque face a une couleur unique
-void display_rubiks(); // afficher le rubiks
-void blank_rubiks(); // griser toutes les cases du cube pour initialisation manuelle
-void fill_rubiks(); // remplir manuellement le rubiks
+void display_rubiks(rubiks *rubix); // afficher le rubiks
+void blank_rubiks(rubiks *rubix); // griser toutes les cases du cube pour initialisation manuelle
+void fill_rubiks(rubiks *rubix); // remplir manuellement le rubiks
 void scramble_rubiks(); // mouvement aleatoire pour randomiser
 void free_rubiks(); // liberer la memoire a la fin du programme
 

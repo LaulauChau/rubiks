@@ -60,26 +60,26 @@ void init_rubiks(rubiks *rubix) {
     for (i = 0 ; i < FACE ; i++) {
         for (j = 0 ; j < LINE ; j++) {
             for (k = 0 ; k < ROW ; k++) {
-                rubix[i].my_side[j]->col = LG;
+                rubix[i].my_side[j]->col = select_color(LG);
                 rubix[i].my_side[j]->c = 'L';
             }
         }
     }
 }
 
-void display_rubiks() {
+void display_rubiks(rubiks *rubix) {
     int i = 0, j, k, couleur;
 
     for (j = 0 ; j < LINE ; j++) {
         for (k = 0 ; k < ROW ; k++) {
             if (k == 0) {
-                couleur = select_color(rubic.cube[i][j][k]);
+                couleur = select_color(rubix[i].my_side[j]->col);
                 c_textcolor(couleur);
-                printf("      \t%2d", rubic.cube[i][j][k]);
+                printf("      \t%2c", rubix[i].my_side[j]->c);
             } else {
-                couleur = select_color(rubic.cube[i][j][k]);
+                couleur = select_color(rubix[i].my_side[j]->col);
                 c_textcolor(couleur);
-                printf("%2d", rubic.cube[i][j][k]);
+                printf("%2c", rubix[i].my_side[j]->c);
             }
         }
         printf("\n");
@@ -91,9 +91,9 @@ void display_rubiks() {
     while (j < LINE) {
         for (i = 1 ; i < (FACE - 1) ; i++) {
             for (k = 0 ; k < ROW ; k++) {
-                couleur = select_color(rubic.cube[i][j][k]);
+                couleur = select_color(rubix[i].my_side[j]->col);
                 c_textcolor(couleur);
-                printf("%2d", rubic.cube[i][j][k]);
+                printf("%2c", rubix[i].my_side[j]->c);
             }
             printf("\t");
         }
@@ -107,65 +107,66 @@ void display_rubiks() {
     for (j = 0 ; j < LINE ; j++) {
         for (k = 0 ; k < ROW ; k++) {
             if (k == 0) {
-                couleur = select_color(rubic.cube[i][j][k]);
+                couleur = select_color(rubix[i].my_side[j]->col);
                 c_textcolor(couleur);
-                printf("      \t%2d", rubic.cube[i][j][k]);
+                printf("      \t%2c", rubix[i].my_side[j]->c);
             } else {
-                couleur = select_color(rubic.cube[i][j][k]);
+                couleur = select_color(rubix[i].my_side[j]->col);
                 c_textcolor(couleur);
-                printf("%2d", rubic.cube[i][j][k]);
+                printf("%2c", rubix[i].my_side[j]->c);
             }
         }
         printf("\n");
     }
 }
 
-void blank_rubiks() {
-    int i, j, k;
+void blank_rubiks(rubiks *rubix) {
+    int i, j;
     for (i = 0 ; i < FACE ; i++) {
         for (j = 0 ; j < LINE ; j++) {
-            for (k = 0 ; k < ROW ; k++) {
-                *(*(*(rubic.cube + i) + j) + k) = -1;
-            }
+                rubix[i].my_side[j]->col = select_color(LG);
+                rubix[i].my_side[j]->c = 'L';
         }
     }
 }
-
-void fill_rubiks() {
+/*
+void fill_rubiks(rubiks *rubix) {
     int face, cord_x, cord_y, couleur;
-    int i, j, k, booleen = 0;
+    int i, j, booleen = 0;
 
     for (i = 0 ; i < FACE ; i++) {
         for (j = 0 ; j < LINE ; j++) {
-            for (k = 0 ; k < ROW ; k++) {
-                if (*(*(*(rubic.cube + i) + j) + k) == -1) {
-                    printf("\nQuelle face voulez-vous modifier ?\n");
-                    printf("\t 0. FRONT\n");
-                    printf("\t 1. BACK\n");
-                    printf("\t 2. UP\n");
-                    printf("\t 3. DOWN\n");
-                    printf("\t 4. LEFT\n");
-                    printf("\t 5. RIGHT\n");
-                    printf("Choisissez en entrant le numero de la face : ");
-                    scanf("%d", &face);
+            if (rubix[i].my_side[j]->col == select_color(LG)) {
+                printf("\nQuelle face voulez-vous modifier ?\n");
+                printf("\t 0. FRONT\n");
+                printf("\t 1. BACK\n");
+                printf("\t 2. UP\n");
+                printf("\t 3. DOWN\n");
+                printf("\t 4. LEFT\n");
+                printf("\t 5. RIGHT\n");
+                printf("Choisissez en entrant le numero de la face : ");
+                scanf("%d", &face);
 
-                    printf("Veuillez entrer les coordonnees de la case a modifier sous cette forme : 0 0 , 0 1 , 3 4 ...\n");
-                    scanf("%d%d", &cord_x, &cord_y);
+                printf("Veuillez entrer les coordonnees de la case a modifier sous cette forme : 0 0 , 0 1 , 3 4 ...\n");
+                scanf("%d%d", &cord_x, &cord_y);
 
-                    printf("Veuillez entrer la couleur a affecter :\n");
-                    printf("\t 0. ROUGE\n");
-                    printf("\t 1. BLEU\n");
-                    printf("\t 2. VERT\n");
-                    printf("\t 3. BLANC\n");
-                    printf("\t 4. JAUNE\n");
-                    printf("\t 5. ORANGE\n");
-                    printf("Choisissez en entrant le numero de la couleur : ");
-                    scanf("%d", &couleur);
+                printf("Veuillez entrer la couleur a affecter :\n");
+                printf("\t 0. ROUGE\n");
+                printf("\t 1. BLEU\n");
+                printf("\t 2. VERT\n");
+                printf("\t 3. BLANC\n");
+                printf("\t 4. JAUNE\n");
+                printf("\t 5. ORANGE\n");
+                printf("Choisissez en entrant le numero de la couleur : ");
+                scanf("%d", &couleur);
 
-                    rubic.cube[face][cord_x][cord_y] = couleur;
-                    display_rubiks();
-                }
+                T_COLOR color = couleur;
+
+                rubix[face].my_side[cord_x]->col = select_color(couleur);
+                rubix[face].my_side[cord_x][cord_y].c = color;
+
+                display_rubiks(rubix);
             }
         }
     }
-}
+}*/
