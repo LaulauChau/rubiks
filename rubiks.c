@@ -17,7 +17,7 @@ int select_color(T_COLOR couleur) {
         case Y:
             return 14;
         case O:
-            return 12;
+            return 6;
         default:
             return 7;
     }
@@ -60,40 +60,39 @@ void init_rubiks(rubiks *rubix) {
     for (i = 0 ; i < FACE ; i++) {
         for (j = 0 ; j < LINE ; j++) {
             for (k = 0 ; k < ROW ; k++) {
-                rubix[i].my_side[j]->col = select_color(LG);
-                rubix[i].my_side[j]->c = 'L';
+                rubix[i].my_side[j][k].col = select_color(LG);
+                rubix[i].my_side[j][k].c = 'L';
             }
         }
     }
 }
 
 void display_rubiks(rubiks *rubix) {
-    int i = 0, j, k, couleur;
-
+    int i = 0, j, k;
+    // Affichage Face UP
     for (j = 0 ; j < LINE ; j++) {
         for (k = 0 ; k < ROW ; k++) {
             if (k == 0) {
-                couleur = select_color(rubix[i].my_side[j]->col);
-                c_textcolor(couleur);
-                printf("      \t%2c", rubix[i].my_side[j]->c);
+                c_textcolor(select_color(rubix[i].my_side[j][k].col));
+                printf("      \t%2c", rubix[i].my_side[j][k].c);
             } else {
-                couleur = select_color(rubix[i].my_side[j]->col);
-                c_textcolor(couleur);
-                printf("%2c", rubix[i].my_side[j]->c);
+                c_textcolor(select_color(rubix[i].my_side[j][k].col));
+                printf("%2c", rubix[i].my_side[j][k].c);
             }
         }
         printf("\n");
     }
 
     printf("\n");
+
+    // Affichage LEFT FRONT RIGHT BACK
     j = 0;
 
     while (j < LINE) {
         for (i = 1 ; i < (FACE - 1) ; i++) {
             for (k = 0 ; k < ROW ; k++) {
-                couleur = select_color(rubix[i].my_side[j]->col);
-                c_textcolor(couleur);
-                printf("%2c", rubix[i].my_side[j]->c);
+                c_textcolor(select_color(rubix[i].my_side[j][k].col));
+                printf("%2c", rubix[i].my_side[j][k].c);
             }
             printf("\t");
         }
@@ -102,18 +101,17 @@ void display_rubiks(rubiks *rubix) {
     }
 
     printf("\n");
-    i = 5;
 
+    // Affichage DOWN
+    i = 5;
     for (j = 0 ; j < LINE ; j++) {
         for (k = 0 ; k < ROW ; k++) {
             if (k == 0) {
-                couleur = select_color(rubix[i].my_side[j]->col);
-                c_textcolor(couleur);
-                printf("      \t%2c", rubix[i].my_side[j]->c);
+                c_textcolor(select_color(rubix[i].my_side[j][k].col));
+                printf("      \t%2c", rubix[i].my_side[j][k].c);
             } else {
-                couleur = select_color(rubix[i].my_side[j]->col);
-                c_textcolor(couleur);
-                printf("%2c", rubix[i].my_side[j]->c);
+                c_textcolor(select_color(rubix[i].my_side[j][k].col));
+                printf("%2c", rubix[i].my_side[j][k].c);
             }
         }
         printf("\n");
@@ -121,56 +119,111 @@ void display_rubiks(rubiks *rubix) {
 }
 
 void blank_rubiks(rubiks *rubix) {
-    int i, j;
+    int i, j, k;
     for (i = 0 ; i < FACE ; i++) {
         for (j = 0 ; j < LINE ; j++) {
-                rubix[i].my_side[j]->col = select_color(LG);
-                rubix[i].my_side[j]->c = 'L';
+            for (k = 0 ; k < ROW ; k++) {
+                rubix[i].my_side[j][k].col = select_color(LG);
+                rubix[i].my_side[j][k].c = 'L';
+            }
         }
     }
 }
 
 void fill_rubiks(rubiks *rubix) {
-    int face, cord_x, cord_y, couleur;
-    int i, j, booleen = 0;
-/*
-    for (i = 0 ; i < FACE ; i++) {
-        for (j = 0 ; j < LINE ; j++) {
-            if (rubix[i].my_side[j]->col == select_color(LG)) {
-                printf("\nQuelle face voulez-vous modifier ?\n");
-                printf("\t 0. FRONT\n");
-                printf("\t 1. BACK\n");
-                printf("\t 2. UP\n");
-                printf("\t 3. DOWN\n");
-                printf("\t 4. LEFT\n");
-                printf("\t 5. RIGHT\n");
-                printf("Choisissez en entrant le numero de la face : ");
-                scanf("%d", &face);
+    int i, j, k;
+    int coord_i, coord_j, coord_k, couleur;
+    int recommencer = 1;
+    do {
+        c_textcolor(select_color(3));
+        do {
+            printf("Veuillez choisir la face :\n");
+            printf("0. UP\n");
+            printf("1. LEFT\n");
+            printf("2. FRONT\n");
+            printf("3. RIGHT\n");
+            printf("4. BACK\n");
+            printf("5. DOWN\n");
+            printf("Choisissez en entrant le numero de la face : ");
+            scanf("%d", &coord_i);
+        } while (coord_i < 0 || coord_i > 5);
 
-                printf("Veuillez entrer les coordonnees de la case a modifier sous cette forme : 0 0 , 0 1 , 3 4 ...\n");
-                scanf("%d%d", &cord_x, &cord_y);
+        do {
+            printf("Veuillez choisir la case :\n");
+            printf("Position x : ");
+            scanf("%d", &coord_j);
+        } while (coord_j < 0 || coord_j > 2);
 
-                printf("Veuillez entrer la couleur a affecter :\n");
-                printf("\t 0. ROUGE\n");
-                printf("\t 1. BLEU\n");
-                printf("\t 2. VERT\n");
-                printf("\t 3. BLANC\n");
-                printf("\t 4. JAUNE\n");
-                printf("\t 5. ORANGE\n");
-                printf("Choisissez en entrant le numero de la couleur : ");
-                scanf("%d", &couleur);
+        do {
+            printf("Position y : ");
+            scanf("%d", &coord_k);
+        } while (coord_k < 0 || coord_k > 2);
 
-                T_COLOR color = couleur;
+        do {
+            printf("Veuillez choisir la couleur :\n");
+            printf("0. RED\n");
+            printf("1. BLUE\n");
+            printf("2. GREEN\n");
+            printf("3. WHITE\n");
+            printf("4. YELLOW\n");
+            printf("5. ORANGE\n");
+            printf("Choisissez en entrant le numero de la couleur : ");
+            scanf("%d", &couleur);
+        } while (couleur < 0 || couleur > 5);
 
-                rubix[face].my_side[cord_x]->col = select_color(couleur);
-                rubix[face].my_side[cord_x][cord_y].c = color;
+        rubix[coord_i].my_side[coord_j][coord_k].col = select_color(couleur); // VERT
 
-                display_rubiks(rubix);
-            }
+        switch (couleur) {
+            case 0:
+                c_textcolor(select_color(couleur));
+                rubix[coord_i].my_side[coord_j][coord_k].c = 'R';
+                break;
+            case 1:
+                c_textcolor(select_color(couleur));
+                rubix[coord_i].my_side[coord_j][coord_k].c = 'B';
+                break;
+            case 2:
+                c_textcolor(select_color(couleur));
+                rubix[coord_i].my_side[coord_j][coord_k].c = 'G';
+                break;
+            case 3:
+                c_textcolor(select_color(couleur));
+                rubix[coord_i].my_side[coord_j][coord_k].c = 'W';
+                break;
+            case 4:
+                c_textcolor(select_color(couleur));
+                rubix[coord_i].my_side[coord_j][coord_k].c = 'Y';
+                break;
+            case 5:
+                c_textcolor(select_color(rubix[coord_i].my_side[coord_j][coord_k].col));
+                rubix[coord_i].my_side[coord_j][coord_k].c = 'O';
+                break;
+            default:
+                c_textcolor(select_color(LG));
+                rubix[coord_i].my_side[coord_j][coord_k].c = 'L';
+                break;
         }
-    }
-*/
 
-    rubix[0].my_side[1][0].c = 'Z';
-    display_rubiks(rubix);
+        display_rubiks(rubix);
+
+        printf("Voulez-vous changer une autre case ? (1/0)");
+        scanf("%d", &recommencer);
+    } while (recommencer == 1);
+}
+
+void scramble_rubiks(rubiks * rubix) {
+    int coord_i, coord_j, coord_k;
+    int coord_i2, coord_j2, coord_k2;
+    srand(time(NULL));
+
+    for (int i = 0 ; i < 54 ; i++) {
+        coord_i = rand() % 6;
+        coord_j = rand() % 3;
+        coord_k = rand() % 3;
+
+        coord_i2 = rand() % 6;
+        coord_j2 = rand() % 3;
+        coord_k2 = rand() % 3;
+        rubix[coord_i].my_side[coord_j][coord_k] = rubix[coord_i2].my_side[coord_j2][coord_k2];
+    }
 }

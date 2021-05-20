@@ -1,3 +1,3 @@
-E:/Users/Laurent/Desktop/Dossier Principal/Cours/EFREI/L1-R/Semestre 2/Informatique generale/Programmation en C - 1/Rubiks cube/cmake-build-debug/CMakeFiles/Rubiks_cube.dir
-E:/Users/Laurent/Desktop/Dossier Principal/Cours/EFREI/L1-R/Semestre 2/Informatique generale/Programmation en C - 1/Rubiks cube/cmake-build-debug/CMakeFiles/edit_cache.dir
-E:/Users/Laurent/Desktop/Dossier Principal/Cours/EFREI/L1-R/Semestre 2/Informatique generale/Programmation en C - 1/Rubiks cube/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/Rubiks_cube.dir
+C:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/rebuild_cache.dir

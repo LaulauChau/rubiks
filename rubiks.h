@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "conio.h"
 
@@ -42,6 +43,16 @@ typedef struct {
     T_SIDE Tside;
     box **my_side;
 } rubiks;
+
+typedef struct {
+    int R;
+    int B;
+    int G;
+    int W;
+    int Y;
+    int O;
+    int LG;
+} NB_COLOR;
 
 
 int select_color(T_COLOR couleur); // prend une couleur en parametre et retourse sa valeur associee

@@ -6,17 +6,19 @@
 
 #IncludeRegexTransform: 
 
-E:/Users/Laurent/Desktop/Dossier Principal/Cours/EFREI/L1-R/Semestre 2/Informatique generale/Programmation en C - 1/Rubiks cube/conio.h
+C:/Users/Laurent/Documents/GitHub/rubiks/conio.h
 
-E:/Users/Laurent/Desktop/Dossier Principal/Cours/EFREI/L1-R/Semestre 2/Informatique generale/Programmation en C - 1/Rubiks cube/rubiks.c
+C:/Users/Laurent/Documents/GitHub/rubiks/main.c
 rubiks.h
-E:/Users/Laurent/Desktop/Dossier Principal/Cours/EFREI/L1-R/Semestre 2/Informatique generale/Programmation en C - 1/Rubiks cube/rubiks.h
+C:/Users/Laurent/Documents/GitHub/rubiks/rubiks.h
+time.h
+-
 
-E:/Users/Laurent/Desktop/Dossier Principal/Cours/EFREI/L1-R/Semestre 2/Informatique generale/Programmation en C - 1/Rubiks cube/rubiks.h
+C:/Users/Laurent/Documents/GitHub/rubiks/rubiks.h
 stdio.h
 -
 stdlib.h
 -
 conio.h
-E:/Users/Laurent/Desktop/Dossier Principal/Cours/EFREI/L1-R/Semestre 2/Informatique generale/Programmation en C - 1/Rubiks cube/conio.h
+C:/Users/Laurent/Documents/GitHub/rubiks/conio.h
 
