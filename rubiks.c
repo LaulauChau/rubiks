@@ -211,12 +211,13 @@ void fill_rubiks(rubiks *rubix) {
     } while (recommencer == 1);
 }
 
-void scramble_rubiks(rubiks * rubix) {
+void scramble_rubiks(rubiks *rubix) {
     int coord_i, coord_j, coord_k;
     int coord_i2, coord_j2, coord_k2;
-    srand(time(NULL));
 
     for (int i = 0 ; i < 54 ; i++) {
+        srand(time(NULL));
+
         coord_i = rand() % 6;
         coord_j = rand() % 3;
         coord_k = rand() % 3;
@@ -227,3 +228,8 @@ void scramble_rubiks(rubiks * rubix) {
         rubix[coord_i].my_side[coord_j][coord_k] = rubix[coord_i2].my_side[coord_j2][coord_k2];
     }
 }
+
+void free_rubiks(rubiks *rubix) {
+    free(rubix);
+}
+
