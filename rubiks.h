@@ -66,4 +66,6 @@ void fill_rubiks(rubiks *rubix); // remplir manuellement le rubiks
 void scramble_rubiks(); // mouvement aleatoire pour randomiser
 void free_rubiks(); // liberer la memoire a la fin du programme
 
+void rotation_clockwise(rubiks *rubix, int face, int rotation); // Rotation d'une face du cube. 1: 1/4 de tour ; 2: demi-tour
+
 #endif //PROJET_C_RUBIKS_H

@@ -8,16 +8,16 @@
 
 C:/Users/Laurent/Documents/GitHub/rubiks/conio.h
 
-C:/Users/Laurent/Documents/GitHub/rubiks/main.c
+C:/Users/Laurent/Documents/GitHub/rubiks/rubiks.c
 rubiks.h
 C:/Users/Laurent/Documents/GitHub/rubiks/rubiks.h
-time.h
--
 
 C:/Users/Laurent/Documents/GitHub/rubiks/rubiks.h
 stdio.h
 -
 stdlib.h
+-
+time.h
 -
 conio.h
 C:/Users/Laurent/Documents/GitHub/rubiks/conio.h
