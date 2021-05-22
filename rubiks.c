@@ -58,11 +58,12 @@ rubiks *create_rubiks() {
 
 void init_rubiks(rubiks *rubix) {
     int i, j, k;
+
     for (i = 0 ; i < FACE ; i++) {
         rubix[i].Tside = side_to_index(i);
         for (j = 0 ; j < LINE ; j++) {
             for (k = 0 ; k < ROW ; k++) {
-                rubix[i].my_side[j][k].col = select_color(LG);
+                rubix[i].my_side[j][k].col = select_color(LG); // 6: Light Gray
                 rubix[i].my_side[j][k].c = 'L';
             }
         }
@@ -487,3 +488,28 @@ void vertical_rotation(rubiks *rubix) {
     }
 }
 
+void rotation_clockwise(rubiks *rubix, int face, int rotation) {
+    if (rotation == 1) {
+        for (int i = 0; i < (LINE / 2); i++) {
+            for (int j = 0; j < (LINE - i - 1); j++) {
+                box temp = rubix[side_to_index(face)].my_side[i][j];
+                rubix[face].my_side[i][j] = rubix[face].my_side[LINE - 1 - j][i];
+                rubix[face].my_side[LINE - 1 - j][i] = rubix[face].my_side[LINE - 1 - i][LINE - 1 - j];
+                rubix[face].my_side[LINE - 1 - i][LINE - 1 - j] = rubix[face].my_side[j][LINE - 1 - i];
+                rubix[face].my_side[j][LINE - 1 - i] = temp;
+            }
+        }
+    } else {
+        for (int k = 0 ; k < 2 ; k++) {
+            for (int i = 0; i < (LINE / 2); i++) {
+                for (int j = 0; j < (LINE - i - 1); j++) {
+                    box temp = rubix[side_to_index(face)].my_side[i][j];
+                    rubix[side_to_index(face)].my_side[i][j] = rubix[side_to_index(face)].my_side[LINE - 1 - j][i];
+                    rubix[side_to_index(face)].my_side[LINE - 1 - j][i] = rubix[side_to_index(face)].my_side[LINE - 1 - i][LINE - 1 - j];
+                    rubix[side_to_index(face)].my_side[LINE - 1 - i][LINE - 1 - j] = rubix[side_to_index(face)].my_side[j][LINE - 1 - i];
+                    rubix[side_to_index(face)].my_side[j][LINE - 1 - i] = temp;
+                }
+            }
+        }
+    }
+}
