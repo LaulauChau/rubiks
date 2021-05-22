@@ -8,8 +8,23 @@ int main() {
     display_rubiks(rubix);
     printf("\n\n\n");
     fill_rubiks(rubix);*/
-    srand(time(NULL));
-    printf("%d", rand() % 5);
+
+    T_COLOR couleur;
+    T_SIDE coord_i;
+    printf("Veuillez choisir la couleur :\n");
+    printf("0: RED\t1: BLUE\t2: GREEN\t3: WHITE\t4: YELLOW\t5: ORANGE\n");
+    printf("Choisissez en entrant le numero de la couleur : ");
+    scanf("%d", &couleur);
+
+    printf("Veuillez choisir la face :\n");
+    printf("0: UP\t1: LEFT\t2: FRONT\t3: RIGHT\t4: BACK\t5: DOWN\n");
+    printf("Choisissez en entrant le numero de la face : ");
+    scanf("%d", &coord_i);
+
+    c_textcolor(select_color(couleur));
+
+    printf("Hello World !\n");
+    printf("Face %d\n", side_to_index(coord_i));
 
     return 0;
 }

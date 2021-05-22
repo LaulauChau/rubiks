@@ -16,22 +16,22 @@
 #define ROW 3
 
 typedef enum {
-    FRONT,
-    BACK,
     UP,
-    DOWN,
+    LEFT,
+    FRONT,
     RIGHT,
-    LEFT
+    BACK,
+    DOWN
 } T_SIDE;
 
 typedef enum {
-    R, // RIGHT 4
-    B, // UP 2
-    G, // DOWN 3
-    W, // FRONT 0
-    Y, // BACK 1
-    O, // LEFT 5
-    LG
+    R,  // RED
+    B,  // BLUE
+    G,  // GREEN
+    W,  // WHITE
+    Y,  // YELLOW
+    O,  // ORANGE
+    LG  // LIGHT GRAY
 } T_COLOR;
 
 typedef struct {
@@ -65,5 +65,25 @@ void blank_rubiks(rubiks *rubix); // griser toutes les cases du cube pour initia
 void fill_rubiks(rubiks *rubix); // remplir manuellement le rubiks
 void scramble_rubiks(); // mouvement aleatoire pour randomiser
 void free_rubiks(); // liberer la memoire a la fin du programme
+
+void quarter_turn(rubiks *rubix, T_SIDE face, int direction); // Quart de tour d'une face
+void half_turn(rubiks *rubix, T_SIDE face); // Demi tour d'une face
+void swap_line(rubiks *rubiks, T_SIDE face_1, T_SIDE face_2, int ligne); // Echanger ligne de deux faces
+void crown(rubiks *rubix, T_SIDE left, T_SIDE up, T_SIDE right, T_SIDE down, int direction); // Rotation cubique d'une face
+
+void FRONT_clockwise(rubiks *rubix, int nbRotation); // Rotation horaire
+void FRONT_anticlockwise(rubiks *rubix, int nbRotation); // Rotation antihoraire
+void BACK_clockwise(rubiks *rubix, int nbRotation);
+void BACK_anticlockwise(rubiks *rubix, int nbRotation);
+void UP_clockwise(rubiks *rubix, int nbRotation);
+void UP_anticlockwise(rubiks *rubix, int nbRotation);
+void DOWN_clockwise(rubiks *rubix, int nbRotation);
+void DOWN_anticlockwise(rubiks *rubix, int nbRotation);
+void LEFT_clockwise(rubiks *rubix, int nbRotation);
+void LEFT_anticlockwise(rubiks *rubix, int nbRotation);
+void RIGHT_clockwise(rubiks *rubix, int nbRotation);
+void RIGHT_anticlockwise(rubiks *rubix, int nbRotation);
+void horizontal_rotation(rubiks *rubix); // Rotation horizontale
+void vertical_rotation(rubiks *rubix); // Rotation vertical
 
 #endif //PROJET_C_RUBIKS_H

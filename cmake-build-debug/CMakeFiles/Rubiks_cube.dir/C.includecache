@@ -6,19 +6,21 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/Laurent/Documents/GitHub/rubiks/conio.h
+E:/Users/Laurent/Documents/GitHub/rubiks/conio.h
 
-C:/Users/Laurent/Documents/GitHub/rubiks/main.c
+E:/Users/Laurent/Documents/GitHub/rubiks/main.c
 rubiks.h
-C:/Users/Laurent/Documents/GitHub/rubiks/rubiks.h
+E:/Users/Laurent/Documents/GitHub/rubiks/rubiks.h
 time.h
 -
 
-C:/Users/Laurent/Documents/GitHub/rubiks/rubiks.h
+E:/Users/Laurent/Documents/GitHub/rubiks/rubiks.h
 stdio.h
 -
 stdlib.h
 -
+time.h
+-
 conio.h
-C:/Users/Laurent/Documents/GitHub/rubiks/conio.h
+E:/Users/Laurent/Documents/GitHub/rubiks/conio.h
 

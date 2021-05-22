@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "C:/Users/Laurent/Documents/GitHub/rubiks/conio.c" "C:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/Rubiks_cube.dir/conio.c.obj"
-  "C:/Users/Laurent/Documents/GitHub/rubiks/main.c" "C:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/Rubiks_cube.dir/main.c.obj"
-  "C:/Users/Laurent/Documents/GitHub/rubiks/rubiks.c" "C:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/Rubiks_cube.dir/rubiks.c.obj"
+  "E:/Users/Laurent/Documents/GitHub/rubiks/conio.c" "E:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/Rubiks_cube.dir/conio.c.obj"
+  "E:/Users/Laurent/Documents/GitHub/rubiks/main.c" "E:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/Rubiks_cube.dir/main.c.obj"
+  "E:/Users/Laurent/Documents/GitHub/rubiks/rubiks.c" "E:/Users/Laurent/Documents/GitHub/rubiks/cmake-build-debug/CMakeFiles/Rubiks_cube.dir/rubiks.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
