@@ -16,12 +16,12 @@
 #define ROW 3
 
 typedef enum {
-    UP,
-    LEFT,
     FRONT,
-    RIGHT,
     BACK,
-    DOWN
+    UP,
+    DOWN,
+    RIGHT,
+    LEFT
 } T_SIDE;
 
 typedef enum {
@@ -44,19 +44,9 @@ typedef struct {
     box **my_side;
 } rubiks;
 
-typedef struct {
-    int R;
-    int B;
-    int G;
-    int W;
-    int Y;
-    int O;
-    int LG;
-} NB_COLOR;
 
-
-int select_color(T_COLOR couleur); // prend une couleur en parametre et retourse sa valeur associee
-int side_to_index(T_SIDE face); // prend un nom de face en parametre et retourne sa position dans le tableau rubiks
+T_COLOR select_color(T_COLOR couleur); // prend une couleur en parametre et retourse sa valeur associee
+T_SIDE side_to_index(T_SIDE face); // prend un nom de face en parametre et retourne sa position dans le tableau rubiks
 
 rubiks *create_rubiks(); // creer le cube dynamiquement
 void init_rubiks(rubiks *rubix); // prend en parametre et qui initialise chaque face a une couleur unique
@@ -69,7 +59,6 @@ void free_rubiks(); // liberer la memoire a la fin du programme
 void quarter_turn(rubiks *rubix, T_SIDE face, int direction); // Quart de tour d'une face
 void half_turn(rubiks *rubix, T_SIDE face); // Demi tour d'une face
 void swap_line(rubiks *rubiks, T_SIDE face_1, T_SIDE face_2, int ligne); // Echanger ligne de deux faces
-void crown(rubiks *rubix, T_SIDE left, T_SIDE up, T_SIDE right, T_SIDE down, int direction); // Rotation cubique d'une face
 
 void FRONT_clockwise(rubiks *rubix, int nbRotation); // Rotation horaire
 void FRONT_anticlockwise(rubiks *rubix, int nbRotation); // Rotation antihoraire

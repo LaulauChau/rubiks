@@ -4,43 +4,56 @@
 
 #include "rubiks.h"
 
-int select_color(T_COLOR couleur) {
+T_COLOR select_color(T_COLOR couleur) {
     switch (couleur) {
         case R:
             return 12;
+            break;
         case B:
             return 9;
+            break;
         case G:
             return 10;
+            break;
         case W:
             return 15;
+            break;
         case Y:
             return 14;
+            break;
         case O:
             return 6;
+            break;
         default:
             return 8;
+            break;
     }
 }
 
-int side_to_index(T_SIDE face) {
-    /*switch (face) {
-        case UP:
-            return 0;
-        case LEFT:
-            return 1;
+T_SIDE side_to_index(T_SIDE face) {
+    switch (face) {
         case FRONT:
             return 2;
-        case RIGHT:
-            return 3;
+            break;
         case BACK:
             return 4;
+            break;
+        case UP:
+            return 0;
+            break;
         case DOWN:
             return 5;
+            break;
+        case RIGHT:
+            return 3;
+            break;
+        case LEFT:
+            return 1;
+            break;
         default:
             return -1;
-    }*/
-    return face;
+            break;
+    }
 }
 
 rubiks *create_rubiks() {
@@ -142,7 +155,7 @@ void fill_rubiks(rubiks *rubix) {
     do {
         do {
             printf("Veuillez choisir la face :\n");
-            printf("0: UP\t1: LEFT\t2: FRONT\t3: RIGHT\t4: BACK\t5: DOWN\n");
+            printf("0: FRONT\t1: BACK\t2: UP\t3: DOWN\t4: RIGHT\t5: LEFT\n");
             printf("Choisissez en entrant le numero de la face : ");
             scanf("%d", &coord_i);
         } while (coord_i < 0 || coord_i > 5);
@@ -195,7 +208,7 @@ void fill_rubiks(rubiks *rubix) {
 
         do {
             printf("Voulez-vous changer une autre case ?\n");
-            printf("1: Oui\t0: Non");
+            printf("1: Oui\t0: Non\n");
             printf("Choisissez en entrant le numero de l'action : ");
             scanf("%d", &recommencer);
         } while (recommencer < 0 || recommencer > 1);
@@ -228,20 +241,21 @@ void free_rubiks(rubiks *rubix) {
 }
 
 void quarter_turn(rubiks *rubix, T_SIDE face, int direction) {
+    box temp;
     // 1: horaire
     // -1: anti horaire
     // LINE = ROW = 3
 
-    for (int i = 0 ; i < LINE ; i++) {
-        for (int j = 0 ; j < ROW ; j++) {
-            if (direction == 1) {
-                box temp = rubix[side_to_index(face)].my_side[i][j];
+    for (int i = 0 ; i < (LINE / 2) ; i++) {
+        for (int j = 0 ; j < (LINE - i) ; j++) {
+            if (direction == -1) {
+                temp = rubix[side_to_index(face)].my_side[i][j];
                 rubix[side_to_index(face)].my_side[i][j] = rubix[side_to_index(face)].my_side[j][LINE - i - 1];
                 rubix[side_to_index(face)].my_side[j][LINE - i - 1] = rubix[side_to_index(face)].my_side[LINE - i - 1][ROW - j - 1];
                 rubix[side_to_index(face)].my_side[LINE - i - 1][ROW - j - 1] = rubix[side_to_index(face)].my_side[ROW - j - 1][i];
                 rubix[side_to_index(face)].my_side[ROW - j - 1][i] = temp;
-            } else if (direction == -1) {
-                box temp = rubix[side_to_index(face)].my_side[i][j];
+            } else if (direction == 1) {
+                temp = rubix[side_to_index(face)].my_side[i][j];
                 rubix[side_to_index(face)].my_side[i][j] = rubix[side_to_index(face)].my_side[ROW - j - 1][i];
                 rubix[side_to_index(face)].my_side[ROW - j - 1][i] = rubix[side_to_index(face)].my_side[LINE - i - 1][ROW - j - 1];
                 rubix[side_to_index(face)].my_side[LINE - i - 1][ROW - j - 1] = rubix[side_to_index(face)].my_side[j][LINE - i - 1];
@@ -258,150 +272,154 @@ void half_turn(rubiks *rubix, T_SIDE face) {
 }
 
 void swap_line(rubiks *rubix, T_SIDE face_1, T_SIDE face_2, int ligne) {
+    box temp;
     for (int j = 0 ; j < ROW ; j++) {
-        box temp = rubix[side_to_index(face_1)].my_side[ligne][j];
+        temp = rubix[side_to_index(face_1)].my_side[ligne][j];
         rubix[side_to_index(face_1)].my_side[ligne][j] = rubix[side_to_index(face_2)].my_side[ligne][j];
         rubix[side_to_index(face_2)].my_side[ligne][j] = temp;
     }
 }
 
-void crown(rubiks *rubix, T_SIDE left, T_SIDE up, T_SIDE right, T_SIDE down, int direction) {
-    // 1: Rotation horaire, -1: Rotation antihoraire
+void FRONT_clockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
+    quarter_turn(rubix, FRONT, clockwise);
+
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, left, clockwise);
-        quarter_turn(rubix, right, -clockwise);
-        half_turn(rubix, down);
+        quarter_turn(rubix, LEFT, clockwise);
+        quarter_turn(rubix, RIGHT, -clockwise);
+        half_turn(rubix, DOWN);
 
         if (i == 0) {
-            // 1: Rotation horaire, 2: Rotation antihoraire
-            if (direction == 1) {
-                swap_line(rubix, up, right, 2);
-                swap_line(rubix, up, left, 2);
-                swap_line(rubix, left, down, 2);
-            } else if (direction == 2) {
-                swap_line(rubix, up, right, 2);
-                swap_line(rubix, right, down, 2);
-                swap_line(rubix, down, left, 2);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, UP, RIGHT, 2);
+                swap_line(rubix, UP, LEFT, 2);
+                swap_line(rubix, LEFT, DOWN, 2);
             }
+
             clockwise *= -1;
         }
     }
 }
 
-void FRONT_clockwise(rubiks *rubix, int nbRotation) {
-    for (int i = 0 ; i < nbRotation ; i++) {
-        crown(rubix, LEFT, UP, RIGHT, DOWN, 1);
-    }
-}
-
 void FRONT_anticlockwise(rubiks *rubix, int nbRotation) {
-    for (int i = 0 ; i < nbRotation ; i++) {
-        crown(rubix, LEFT, UP, RIGHT, DOWN, -1);
+    int clockwise = -1;
+
+    quarter_turn(rubix, FRONT, clockwise);
+
+    for (int i = 0 ; i < 2 ; i++) {
+        quarter_turn(rubix, LEFT, clockwise);
+        quarter_turn(rubix, RIGHT, -clockwise);
+        half_turn(rubix, DOWN);
+
+        if (i == 0) {
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, UP, RIGHT, 2);
+                swap_line(rubix, RIGHT, DOWN, 2);
+                swap_line(rubix, DOWN, LEFT, 2);
+            }
+
+            clockwise *= -1;
+        }
     }
 }
 
 void BACK_clockwise(rubiks *rubix, int nbRotation) {
+    int clockwise = 1;
+
+    quarter_turn(rubix, BACK, clockwise);
+
     for (int i = 0 ; i < 2 ; i++) {
-        half_turn(rubix, RIGHT);
+        quarter_turn(rubix, RIGHT, clockwise);
+        quarter_turn(rubix, LEFT, -clockwise);
         half_turn(rubix, UP);
-        half_turn(rubix, LEFT);
-        half_turn(rubix, DOWN);
 
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, RIGHT, UP, LEFT, DOWN, 1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, UP, LEFT, 2);
+                swap_line(rubix, UP, RIGHT, 2);
+                swap_line(rubix, RIGHT, DOWN, 2);
             }
+
+            clockwise *= -1;
         }
     }
 }
 
 void BACK_anticlockwise(rubiks *rubix, int nbRotation) {
+    int clockwise = -1;
+
+    quarter_turn(rubix, BACK, clockwise);
+
     for (int i = 0 ; i < 2 ; i++) {
-        half_turn(rubix, RIGHT);
+        quarter_turn(rubix, RIGHT, clockwise);
+        quarter_turn(rubix, LEFT, -clockwise);
         half_turn(rubix, UP);
-        half_turn(rubix, LEFT);
-        half_turn(rubix, DOWN);
 
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, RIGHT, UP, LEFT, DOWN, -1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, UP, LEFT, 2);
+                swap_line(rubix, LEFT, DOWN, 2);
+                swap_line(rubix, DOWN, RIGHT, 2);
             }
+
+            clockwise *= -1;
         }
     }
 }
 
 void UP_clockwise(rubiks *rubix, int nbRotation) {
-    int clockwise = 1;
+    quarter_turn(rubix, UP, 1);
 
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, LEFT, -clockwise);
-        half_turn(rubix, BACK);
-        quarter_turn(rubix, RIGHT, clockwise);
-        quarter_turn(rubix, FRONT, clockwise);
-
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, LEFT, BACK, RIGHT, FRONT, 1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, BACK, RIGHT, 0);
+                swap_line(rubix, BACK, LEFT, 0);
+                swap_line(rubix, LEFT, FRONT, 0);
             }
-
-            clockwise *= -1;
         }
     }
 }
 
 void UP_anticlockwise(rubiks *rubix, int nbRotation) {
-    int clockwise = 1;
+    quarter_turn(rubix, UP, -1);
 
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, LEFT, -clockwise);
-        half_turn(rubix, BACK);
-        quarter_turn(rubix, RIGHT, clockwise);
-        quarter_turn(rubix, FRONT, clockwise);
-
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, LEFT, BACK, RIGHT, FRONT, -1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, BACK, RIGHT, 0);
+                swap_line(rubix, RIGHT, FRONT, 0);
+                swap_line(rubix, FRONT, LEFT, 0);
             }
-
-            clockwise *= -1;
         }
     }
 }
 
 void DOWN_clockwise(rubiks *rubix, int nbRotation) {
-    int clockwise = 1;
+    quarter_turn(rubix, DOWN, 1);
 
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, LEFT, clockwise);
-        quarter_turn(rubix, RIGHT, -clockwise);
-        quarter_turn(rubix, BACK, -clockwise);
-
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, LEFT, FRONT, RIGHT, BACK, 1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, FRONT, LEFT, 2);
+                swap_line(rubix, FRONT, RIGHT, 2);
+                swap_line(rubix, RIGHT, BACK, 2);
             }
-
-            clockwise *= -1;
         }
     }
 }
 
 void DOWN_anticlockwise(rubiks *rubix, int nbRotation) {
-    int clockwise = 1;
+    quarter_turn(rubix, DOWN, -1);
 
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, LEFT, clockwise);
-        quarter_turn(rubix, RIGHT, -clockwise);
-        quarter_turn(rubix, BACK, -clockwise);
-
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, LEFT, FRONT, RIGHT, BACK, -1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, FRONT, LEFT, 2);
+                swap_line(rubix, LEFT, BACK, 2);
+                swap_line(rubix, BACK, RIGHT, 2);
             }
-
-            clockwise *= -1;
         }
     }
 }
@@ -409,13 +427,19 @@ void DOWN_anticlockwise(rubiks *rubix, int nbRotation) {
 void LEFT_clockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
+    quarter_turn(rubix, LEFT, clockwise);
+
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, UP, clockwise);
+        quarter_turn(rubix, BACK, clockwise);
+        quarter_turn(rubix, UP, -clockwise);
+        quarter_turn(rubix, FRONT, -clockwise);
         quarter_turn(rubix, DOWN, -clockwise);
 
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, BACK, UP, FRONT, DOWN, 1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, UP, FRONT, 2);
+                swap_line(rubix, UP, BACK, 2);
+                swap_line(rubix, BACK, DOWN, 2);
             }
 
             clockwise *= -1;
@@ -424,15 +448,21 @@ void LEFT_clockwise(rubiks *rubix, int nbRotation) {
 }
 
 void LEFT_anticlockwise(rubiks *rubix, int nbRotation) {
-    int clockwise = 1;
+    int clockwise = -1;
+
+    quarter_turn(rubix, LEFT, clockwise);
 
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, UP, clockwise);
+        quarter_turn(rubix, BACK, clockwise);
+        quarter_turn(rubix, UP, -clockwise);
+        quarter_turn(rubix, FRONT, -clockwise);
         quarter_turn(rubix, DOWN, -clockwise);
 
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, BACK, UP, FRONT, DOWN, -1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, UP, FRONT, 2);
+                swap_line(rubix, FRONT, DOWN, 2);
+                swap_line(rubix, DOWN, BACK, 2);
             }
 
             clockwise *= -1;
@@ -443,13 +473,19 @@ void LEFT_anticlockwise(rubiks *rubix, int nbRotation) {
 void RIGHT_clockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
+    quarter_turn(rubix, RIGHT, clockwise);
+
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, UP, -clockwise);
+        quarter_turn(rubix, FRONT, clockwise);
+        quarter_turn(rubix, UP, clockwise);
+        quarter_turn(rubix, BACK, -clockwise);
         quarter_turn(rubix, DOWN, clockwise);
 
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, FRONT, UP, BACK, DOWN, 1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, UP, BACK, 2);
+                swap_line(rubix, UP, FRONT, 2);
+                swap_line(rubix, FRONT, DOWN, 2);
             }
 
             clockwise *= -1;
@@ -458,15 +494,21 @@ void RIGHT_clockwise(rubiks *rubix, int nbRotation) {
 }
 
 void RIGHT_anticlockwise(rubiks *rubix, int nbRotation) {
-    int clockwise = 1;
+    int clockwise = -1;
+
+    quarter_turn(rubix, RIGHT, clockwise);
 
     for (int i = 0 ; i < 2 ; i++) {
-        quarter_turn(rubix, UP, -clockwise);
+        quarter_turn(rubix, FRONT, clockwise);
+        quarter_turn(rubix, UP, clockwise);
+        quarter_turn(rubix, BACK, -clockwise);
         quarter_turn(rubix, DOWN, clockwise);
 
         if (i == 0) {
-            for (int j = 0 ; j < nbRotation ; j++) {
-                crown(rubix, FRONT, UP, BACK, DOWN, -1);
+            for (int j = 0; j < nbRotation; j++) {
+                swap_line(rubix, UP, BACK, 2);
+                swap_line(rubix, BACK, DOWN, 2);
+                swap_line(rubix, DOWN, FRONT, 2);
             }
 
             clockwise *= -1;
@@ -485,31 +527,5 @@ void vertical_rotation(rubiks *rubix) {
     for (int i = 0 ; i < LINE ; i++) {
         swap_line(rubix, DOWN, UP, i);
         swap_line(rubix, FRONT, BACK, i);
-    }
-}
-
-void rotation_clockwise(rubiks *rubix, int face, int rotation) {
-    if (rotation == 1) {
-        for (int i = 0; i < (LINE / 2); i++) {
-            for (int j = 0; j < (LINE - i - 1); j++) {
-                box temp = rubix[side_to_index(face)].my_side[i][j];
-                rubix[face].my_side[i][j] = rubix[face].my_side[LINE - 1 - j][i];
-                rubix[face].my_side[LINE - 1 - j][i] = rubix[face].my_side[LINE - 1 - i][LINE - 1 - j];
-                rubix[face].my_side[LINE - 1 - i][LINE - 1 - j] = rubix[face].my_side[j][LINE - 1 - i];
-                rubix[face].my_side[j][LINE - 1 - i] = temp;
-            }
-        }
-    } else {
-        for (int k = 0 ; k < 2 ; k++) {
-            for (int i = 0; i < (LINE / 2); i++) {
-                for (int j = 0; j < (LINE - i - 1); j++) {
-                    box temp = rubix[side_to_index(face)].my_side[i][j];
-                    rubix[side_to_index(face)].my_side[i][j] = rubix[side_to_index(face)].my_side[LINE - 1 - j][i];
-                    rubix[side_to_index(face)].my_side[LINE - 1 - j][i] = rubix[side_to_index(face)].my_side[LINE - 1 - i][LINE - 1 - j];
-                    rubix[side_to_index(face)].my_side[LINE - 1 - i][LINE - 1 - j] = rubix[side_to_index(face)].my_side[j][LINE - 1 - i];
-                    rubix[side_to_index(face)].my_side[j][LINE - 1 - i] = temp;
-                }
-            }
-        }
     }
 }
