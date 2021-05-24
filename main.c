@@ -1,5 +1,4 @@
 #include "rubiks.h"
-#include <time.h>
 
 
 int main() {
@@ -7,9 +6,10 @@ int main() {
     init_rubiks(rubix);
     display_rubiks(rubix);
     printf("\n\n\n");
-    fill_rubiks(rubix);
 
-    FRONT_clockwise(rubix, 1);
+    move_rubiks(rubix);
+
     display_rubiks(rubix);
+
     return 0;
 }

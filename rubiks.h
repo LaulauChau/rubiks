@@ -25,12 +25,12 @@ typedef enum {
 } T_SIDE;
 
 typedef enum {
+    W,  // WHITE
+    O,  // ORANGE
+    G,  // GREEN
     R,  // RED
     B,  // BLUE
-    G,  // GREEN
-    W,  // WHITE
     Y,  // YELLOW
-    O,  // ORANGE
     LG  // LIGHT GRAY
 } T_COLOR;
 
@@ -46,6 +46,7 @@ typedef struct {
 
 
 T_COLOR select_color(T_COLOR couleur); // prend une couleur en parametre et retourse sa valeur associee
+char colour_to_char(T_COLOR colour);
 T_SIDE side_to_index(T_SIDE face); // prend un nom de face en parametre et retourne sa position dans le tableau rubiks
 
 rubiks *create_rubiks(); // creer le cube dynamiquement
@@ -53,13 +54,14 @@ void init_rubiks(rubiks *rubix); // prend en parametre et qui initialise chaque 
 void display_rubiks(rubiks *rubix); // afficher le rubiks
 void blank_rubiks(rubiks *rubix); // griser toutes les cases du cube pour initialisation manuelle
 void fill_rubiks(rubiks *rubix); // remplir manuellement le rubiks
-void scramble_rubiks(); // mouvement aleatoire pour randomiser
+void scramble_rubiks(rubiks *rubix); // mouvement aleatoire pour randomiser
 void free_rubiks(); // liberer la memoire a la fin du programme
 
 void quarter_turn(rubiks *rubix, T_SIDE face, int direction); // Quart de tour d'une face
 void half_turn(rubiks *rubix, T_SIDE face); // Demi tour d'une face
 void swap_line(rubiks *rubiks, T_SIDE face_1, T_SIDE face_2, int ligne); // Echanger ligne de deux faces
 
+void clockwise(rubiks *rubix, T_SIDE , int nbRotation);
 void FRONT_clockwise(rubiks *rubix, int nbRotation); // Rotation horaire
 void FRONT_anticlockwise(rubiks *rubix, int nbRotation); // Rotation antihoraire
 void BACK_clockwise(rubiks *rubix, int nbRotation);
@@ -74,5 +76,7 @@ void RIGHT_clockwise(rubiks *rubix, int nbRotation);
 void RIGHT_anticlockwise(rubiks *rubix, int nbRotation);
 void horizontal_rotation(rubiks *rubix); // Rotation horizontale
 void vertical_rotation(rubiks *rubix); // Rotation vertical
+
+void move_rubiks(rubiks *rubix); // Permettre à l'utilisateur de choisir un des mouvements ci-dessus
 
 #endif //PROJET_C_RUBIKS_H
