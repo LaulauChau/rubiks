@@ -1,9 +1,9 @@
-//
-// Created by Laurent on 23/04/2021.
-//
+// CHAU Laurent MERIAUX Gaetan
+// Definition des fonctions du rubiks
 
 #include "rubiks.h"
 
+// Prend une couleur en parametre et retourne sa valeur associé pour l'affichage en couleur par la suite
 T_COLOR select_color(T_COLOR colour) {
     switch (colour) {
         case R:
@@ -23,6 +23,7 @@ T_COLOR select_color(T_COLOR colour) {
     }
 }
 
+// Prend une couleur en parametre et retourne la premiere lettre pour l'affectation dans le rubiks
 char colour_to_char(T_COLOR colour) {
     switch (colour) {
         case R:
@@ -42,6 +43,7 @@ char colour_to_char(T_COLOR colour) {
     }
 }
 
+// Prend une face en parametre et retourne son indice dans le rubiks
 T_SIDE side_to_index(T_SIDE face) {
     switch (face) {
         case FRONT:
@@ -68,6 +70,7 @@ T_SIDE side_to_index(T_SIDE face) {
     }
 }
 
+// Alloue dynamiquement de la mémoire pour le rubiks
 rubiks *create_rubiks() {
     int i, j;
     rubiks *rubix;
@@ -81,6 +84,7 @@ rubiks *create_rubiks() {
     return rubix;
 }
 
+// Initialise chaque face à un type face et chaque case à une couleur et un caractere
 void init_rubiks(rubiks *rubix) {
     int i, j, k;
 
@@ -95,6 +99,7 @@ void init_rubiks(rubiks *rubix) {
     }
 }
 
+// Affiche le rubiks à l'écran
 void display_rubiks(rubiks *rubix) {
     int i = 0, j, k;
     // Affichage Face UP
@@ -115,7 +120,7 @@ void display_rubiks(rubiks *rubix) {
 
     // Affichage LEFT FRONT RIGHT BACK
     j = 0;
-
+    // Varie j car les faces sont affichés à la suite
     while (j < LINE) {
         for (i = 1 ; i < (FACE - 1) ; i++) {
             for (k = 0 ; k < ROW ; k++) {
@@ -146,6 +151,7 @@ void display_rubiks(rubiks *rubix) {
     }
 }
 
+// Affecte chaque case à une couleur grise
 void blank_rubiks(rubiks *rubix) {
     int i, j, k;
     for (i = 0 ; i < FACE ; i++) {
@@ -158,11 +164,11 @@ void blank_rubiks(rubiks *rubix) {
     }
 }
 
+// Permet à l'utilisateur de remplir les cases du rubiks
 void fill_rubiks(rubiks *rubix) {
     int coord_j, coord_k;
     T_SIDE coord_i;
-    int couleur, booleen = 0;
-    int color[] = {0, 0, 0, 0, 0, 0};
+    int couleur;
 
     int recommencer = 1;
     do {
@@ -192,8 +198,8 @@ void fill_rubiks(rubiks *rubix) {
             scanf("%d", &couleur);
         } while (couleur < 0 || couleur > 5);
 
-        rubix[side_to_index(coord_i)].my_side[coord_j][coord_k].col = couleur; // VERT
-        rubix[side_to_index(coord_i)].my_side[coord_j][coord_k].c = colour_to_char(couleur);
+        rubix[side_to_index(coord_i)].my_side[coord_j][coord_k].col = couleur; // Affecte la couleur
+        rubix[side_to_index(coord_i)].my_side[coord_j][coord_k].c = colour_to_char(couleur); // Affecte le caractere
 
         display_rubiks(rubix);
 
@@ -207,18 +213,21 @@ void fill_rubiks(rubiks *rubix) {
     } while (recommencer == 1);
 }
 
+// Melange le rubiks
 void scramble_rubiks(rubiks *rubix) {
     for (int i = 0 ; i < 54 ; i++) {
-        clockwise(rubix, rand() % 7, rand() % 3);
+        clockwise(rubix, rand() % 7, rand() % 3); // Prend une face aléatoire ainsi qu'un nombre de rotation aléatoire
     }
 }
 
+// Libére l'espace mémoire
 void free_rubiks(rubiks *rubix) {
     if (rubix != NULL) {
         free(rubix);
     }
 }
 
+// Prend une face en parametre et une direction (horaire, antihoraire) et fais un quart de tour sur la face choisis
 void quarter_turn(rubiks *rubix, T_SIDE face, int direction) {
     box temp;
     // 1: horaire
@@ -244,12 +253,14 @@ void quarter_turn(rubiks *rubix, T_SIDE face, int direction) {
     }
 }
 
+// Demi tour d'une face = quart de tour x2
 void half_turn(rubiks *rubix, T_SIDE face) {
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, face, 1);
     }
 }
 
+// prend deux faces et une ligne en parametre et echange deux lignes entre deux faces
 void swap_line(rubiks *rubix, T_SIDE face_1, T_SIDE face_2, int ligne) {
     box temp;
     for (int j = 0 ; j < ROW ; j++) {
@@ -259,11 +270,12 @@ void swap_line(rubiks *rubix, T_SIDE face_1, T_SIDE face_2, int ligne) {
     }
 }
 
+// Rotation de la face FRONT et des faces voisines
 void FRONT_clockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
     quarter_turn(rubix, FRONT, clockwise);
-
+    // On met les faces dans le même sens
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, LEFT, clockwise);
         quarter_turn(rubix, RIGHT, -clockwise);
@@ -276,16 +288,17 @@ void FRONT_clockwise(rubiks *rubix, int nbRotation) {
                 swap_line(rubix, LEFT, DOWN, 2);
             }
 
-            clockwise *= -1;
+            clockwise *= -1; // Rotation dans le sens inverse pour remettre les faces dans le bon sens
         }
     }
 }
 
+// Rotation de la face FRONT et des faces voisines
 void FRONT_anticlockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
     quarter_turn(rubix, FRONT, -clockwise);
-
+    // On met les faces dans le même sens
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, LEFT, clockwise);
         quarter_turn(rubix, RIGHT, -clockwise);
@@ -301,11 +314,12 @@ void FRONT_anticlockwise(rubiks *rubix, int nbRotation) {
     }
 }
 
+// Rotation de la face BACK et des faces voisines
 void BACK_clockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
     quarter_turn(rubix, BACK, clockwise);
-
+    // On met les faces dans le même sens
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, RIGHT, clockwise);
         quarter_turn(rubix, LEFT, -clockwise);
@@ -318,16 +332,17 @@ void BACK_clockwise(rubiks *rubix, int nbRotation) {
                 swap_line(rubix, RIGHT, DOWN, 2);
             }
 
-            clockwise *= -1;
+            clockwise *= -1; // Rotation dans le sens inverse pour remettre les faces dans le bon sens
         }
     }
 }
 
+// Rotation de la face BACK et des faces voisines
 void BACK_anticlockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
     quarter_turn(rubix, BACK, -clockwise);
-
+    // On met les faces dans le même sens
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, RIGHT, clockwise);
         quarter_turn(rubix, LEFT, -clockwise);
@@ -343,6 +358,7 @@ void BACK_anticlockwise(rubiks *rubix, int nbRotation) {
     }
 }
 
+// Rotation de la face UP et des faces voisines
 void UP_clockwise(rubiks *rubix, int nbRotation) {
     quarter_turn(rubix, UP, 1);
 
@@ -357,6 +373,7 @@ void UP_clockwise(rubiks *rubix, int nbRotation) {
     }
 }
 
+// Rotation de la face UP et des faces voisines
 void UP_anticlockwise(rubiks *rubix, int nbRotation) {
     quarter_turn(rubix, UP, -1);
 
@@ -371,6 +388,7 @@ void UP_anticlockwise(rubiks *rubix, int nbRotation) {
     }
 }
 
+// Rotation de la face DOWN et des faces voisines
 void DOWN_clockwise(rubiks *rubix, int nbRotation) {
     quarter_turn(rubix, DOWN, 1);
 
@@ -385,6 +403,7 @@ void DOWN_clockwise(rubiks *rubix, int nbRotation) {
     }
 }
 
+// Rotation de la face DOWN et des faces voisines
 void DOWN_anticlockwise(rubiks *rubix, int nbRotation) {
     quarter_turn(rubix, DOWN, -1);
 
@@ -399,11 +418,12 @@ void DOWN_anticlockwise(rubiks *rubix, int nbRotation) {
     }
 }
 
+// Rotation de la face LEFT et des faces voisines
 void LEFT_clockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
     quarter_turn(rubix, LEFT, clockwise);
-
+    // On met les faces dans le même sens
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, BACK, clockwise);
         quarter_turn(rubix, UP, -clockwise);
@@ -417,16 +437,17 @@ void LEFT_clockwise(rubiks *rubix, int nbRotation) {
                 swap_line(rubix, BACK, DOWN, 2);
             }
 
-            clockwise *= -1;
+            clockwise *= -1; // Rotation dans le sens inverse pour remettre les faces dans le bon sens
         }
     }
 }
 
+// Rotation de la face LEFT et des faces voisines
 void LEFT_anticlockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
     quarter_turn(rubix, LEFT, -clockwise);
-
+    // On met les faces dans le même sens
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, BACK, clockwise);
         quarter_turn(rubix, UP, -clockwise);
@@ -443,11 +464,12 @@ void LEFT_anticlockwise(rubiks *rubix, int nbRotation) {
     }
 }
 
+// Rotation de la face RIGHT et des faces voisines
 void RIGHT_clockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
     quarter_turn(rubix, RIGHT, clockwise);
-
+    // On met les faces dans le même sens
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, FRONT, clockwise);
         quarter_turn(rubix, UP, clockwise);
@@ -461,16 +483,17 @@ void RIGHT_clockwise(rubiks *rubix, int nbRotation) {
                 swap_line(rubix, FRONT, DOWN, 2);
             }
 
-            clockwise *= -1;
+            clockwise *= -1; // Rotation dans le sens inverse pour remettre les faces dans le bon sens
         }
     }
 }
 
+// Rotation de la face RIGHT et des faces voisines
 void RIGHT_anticlockwise(rubiks *rubix, int nbRotation) {
     int clockwise = 1;
 
     quarter_turn(rubix, RIGHT, -clockwise);
-
+    // On met les faces dans le même sens
     for (int i = 0 ; i < 2 ; i++) {
         quarter_turn(rubix, FRONT, clockwise);
         quarter_turn(rubix, UP, clockwise);
@@ -487,6 +510,7 @@ void RIGHT_anticlockwise(rubiks *rubix, int nbRotation) {
     }
 }
 
+// Rotation HORIZONTAL
 void horizontal_rotation(rubiks *rubix) {
     for (int i = 0 ; i < LINE ; i++) {
         swap_line(rubix, FRONT, BACK, i);
@@ -494,6 +518,7 @@ void horizontal_rotation(rubiks *rubix) {
     }
 }
 
+// Rotation VERTICAL
 void vertical_rotation(rubiks *rubix) {
     for (int i = 0 ; i < LINE ; i++) {
         swap_line(rubix, DOWN, UP, i);
@@ -501,6 +526,7 @@ void vertical_rotation(rubiks *rubix) {
     }
 }
 
+// Choisir une rotation horaire sur une face demandé en parametre
 void clockwise(rubiks *rubix, T_SIDE face, int nbRotation) {
     switch (face) {
         case FRONT:
@@ -524,6 +550,7 @@ void clockwise(rubiks *rubix, T_SIDE face, int nbRotation) {
     }
 }
 
+// Rotation antihoraire
 void anticlockwise(rubiks *rubix, T_SIDE face, int nbRotation) {
     switch (face) {
         case FRONT:
@@ -547,6 +574,7 @@ void anticlockwise(rubiks *rubix, T_SIDE face, int nbRotation) {
     }
 }
 
+// Permettre à l'utilisateur de choisir un des mouvements ci-dessus
 void move_rubiks(rubiks *rubix) {
     T_SIDE face;
     int recommencer = 1;

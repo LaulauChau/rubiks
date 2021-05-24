@@ -1,3 +1,6 @@
+// CHAU Laurent MERIAUX Gaetan
+// Algorithme principal
+
 #include "rubiks.h"
 
 

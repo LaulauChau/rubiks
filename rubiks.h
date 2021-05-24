@@ -1,6 +1,6 @@
-//
-// Created by Laurent on 23/04/2021.
-//
+// CHAU Laurent MERIAUX Gaetan
+// Prototype des fonctions du rubiks
+// Definition des structures du rubiks
 
 #ifndef PROJET_C_RUBIKS_H
 #define PROJET_C_RUBIKS_H
@@ -46,7 +46,7 @@ typedef struct {
 
 
 T_COLOR select_color(T_COLOR couleur); // prend une couleur en parametre et retourse sa valeur associee
-char colour_to_char(T_COLOR colour);
+char colour_to_char(T_COLOR colour); // Prend une couleur et retourne la premiere lettre pour l'affichage
 T_SIDE side_to_index(T_SIDE face); // prend un nom de face en parametre et retourne sa position dans le tableau rubiks
 
 rubiks *create_rubiks(); // creer le cube dynamiquement
@@ -61,10 +61,10 @@ void quarter_turn(rubiks *rubix, T_SIDE face, int direction); // Quart de tour d
 void half_turn(rubiks *rubix, T_SIDE face); // Demi tour d'une face
 void swap_line(rubiks *rubiks, T_SIDE face_1, T_SIDE face_2, int ligne); // Echanger ligne de deux faces
 
-void clockwise(rubiks *rubix, T_SIDE , int nbRotation);
-void anticlockwise(rubiks *rubix, T_SIDE face, int nbRotation);
-void FRONT_clockwise(rubiks *rubix, int nbRotation); // Rotation horaire
-void FRONT_anticlockwise(rubiks *rubix, int nbRotation); // Rotation antihoraire
+void clockwise(rubiks *rubix, T_SIDE , int nbRotation); // Prend un parametre une face et un nombre de rotation (1:quart de tour, 2:demi tour) et fait une rotion horaire du cube
+void anticlockwise(rubiks *rubix, T_SIDE face, int nbRotation); // Rotation anti horaire
+void FRONT_clockwise(rubiks *rubix, int nbRotation);
+void FRONT_anticlockwise(rubiks *rubix, int nbRotation);
 void BACK_clockwise(rubiks *rubix, int nbRotation);
 void BACK_anticlockwise(rubiks *rubix, int nbRotation);
 void UP_clockwise(rubiks *rubix, int nbRotation);
@@ -75,8 +75,8 @@ void LEFT_clockwise(rubiks *rubix, int nbRotation);
 void LEFT_anticlockwise(rubiks *rubix, int nbRotation);
 void RIGHT_clockwise(rubiks *rubix, int nbRotation);
 void RIGHT_anticlockwise(rubiks *rubix, int nbRotation);
-void horizontal_rotation(rubiks *rubix); // Rotation horizontale
-void vertical_rotation(rubiks *rubix); // Rotation vertical
+void horizontal_rotation(rubiks *rubix); // Front deviens Back, Right deviens Left et vice-versa
+void vertical_rotation(rubiks *rubix); // Up deviens Down, Front deviens Back et vice-versa
 
 void move_rubiks(rubiks *rubix); // Permettre à l'utilisateur de choisir un des mouvements ci-dessus
 
