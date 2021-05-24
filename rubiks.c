@@ -587,7 +587,7 @@ void move_rubiks(rubiks *rubix) {
         }
 
         display_rubiks(rubix);
-
+        c_textcolor(WHITE);
         printf("Voulez-vous faire un autre mouvement ?\n");
         printf("1: Oui\t0: Non\n");
         scanf("%d", &recommencer);

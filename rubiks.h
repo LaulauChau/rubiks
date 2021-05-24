@@ -55,13 +55,14 @@ void display_rubiks(rubiks *rubix); // afficher le rubiks
 void blank_rubiks(rubiks *rubix); // griser toutes les cases du cube pour initialisation manuelle
 void fill_rubiks(rubiks *rubix); // remplir manuellement le rubiks
 void scramble_rubiks(rubiks *rubix); // mouvement aleatoire pour randomiser
-void free_rubiks(); // liberer la memoire a la fin du programme
+void free_rubiks(rubiks *rubix); // liberer la memoire a la fin du programme
 
 void quarter_turn(rubiks *rubix, T_SIDE face, int direction); // Quart de tour d'une face
 void half_turn(rubiks *rubix, T_SIDE face); // Demi tour d'une face
 void swap_line(rubiks *rubiks, T_SIDE face_1, T_SIDE face_2, int ligne); // Echanger ligne de deux faces
 
 void clockwise(rubiks *rubix, T_SIDE , int nbRotation);
+void anticlockwise(rubiks *rubix, T_SIDE face, int nbRotation);
 void FRONT_clockwise(rubiks *rubix, int nbRotation); // Rotation horaire
 void FRONT_anticlockwise(rubiks *rubix, int nbRotation); // Rotation antihoraire
 void BACK_clockwise(rubiks *rubix, int nbRotation);
